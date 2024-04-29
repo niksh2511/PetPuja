@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+
+    <!-- Link Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Style for the star rating in yellow color */
+        .star-rating {
+            color: rgb(255, 128, 0); /* Change the star color to yellow */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- Navigation bar with logo on the left -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container">
+            <!-- Add your logo image here -->
+            <a href="#" class="navbar-brand">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLEdZaKAWWfNCqnc68lKZqMS-E76V1-mw7iQ&s" alt="Logo" style="height: 80px; width: auto;">
+            </a>
+        </div>
+    </nav>
+
+    <!-- Search and filter bar -->
+    <div class="container my-4 d-flex justify-content-center">
+        <!-- Search bar -->
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search restaurants..." />
+            <button class="btn btn-primary shadow-sm" type="button">Search</button>
+        </div>
+
+        <!-- Filter button -->
+        <div class="dropdown ms-3">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Filter
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                <li><a class="dropdown-item" href="#" onclick="sortByName()">Sort by Name</a></li>
+                <li><a class="dropdown-item" href="#" onclick="filterByRating()">Filter by Rating</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Restaurant logos and names -->
+    <div id="restaurant-logos" class="container">
+        <div class="row">
+            <!-- Restaurant logos and names will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        const restaurantData = [
+            {
+                imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHrLlWNorh6_IB_wp83USPY3QRkes63rTQuw&s',
+                linkUrl: '3starcafe.html', // Link to 3starcafe.html
+                name: '7 Star Cafe',
+                rating: 4.2 // Example rating
+            },
+            {
+                imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyDzXxxJ4L7GVGrAtYVl6HYeaWH1hNn8iIXw&s',
+                linkUrl: 'https://restaurant2.com',
+                name: 'Shambhus Coffee Bar',
+                rating: 3.0 // Example rating
+            },
+            {
+                imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQc1em8LS2B9IVOtKqHR1OeQ8UBag1cloFJ8g&s',
+                linkUrl: 'https://restaurant3.com',
+                name: 'Gujju Cafe',
+                rating: 4.5 // Example rating
+            },
+            {
+                imgUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGJj03253-IBnB24mhiRCZLNC9FIT07_NNIUgz5v55a276gJ4abtRj-rx3cpRZ2Yfy0-k&usqp=CAU',
+                linkUrl: 'https://restaurant4.com',
+                name: 'Star Cafe',
+                rating: 2.0 // Example rating
+            }
+        ];
+
+        // Function to load restaurant logos and names
+        function loadLogos() {
+            const logoContainer = document.getElementById('restaurant-logos').querySelector('.row');
+
+            // Clear current logos
+            logoContainer.innerHTML = '';
+
+            // Add logos and names to the page
+            restaurantData.forEach((restaurant) => {
+                const col = document.createElement('div');
+                col.classList.add('col-md-6', 'mb-4');
+
+                // Create link element
+                const a = document.createElement('a');
+                a.href = restaurant.linkUrl;
+                a.target = '_blank'; // Open link in a new tab
+
+                // Create image element
+                const img = document.createElement('img');
+                img.src = restaurant.imgUrl;
+                img.alt = restaurant.name;
+                img.classList.add('img-fluid', 'rounded', 'shadow-sm'); // Bootstrap classes for image
+
+                // Append image to the link element
+                a.appendChild(img);
+
+                // Create a paragraph element for the restaurant name and rating
+                const p = document.createElement('p');
+                p.innerHTML = `${restaurant.name} <br> <span class="star-rating">${'★'.repeat(Math.floor(restaurant.rating))}</span> (${restaurant.rating.toFixed(1)})`;
+                p.classList.add('mt-2', 'text-center', 'text-lg', 'fw-bold', 'fst-italic', 'text-secondary');
+
+                // Append link element and paragraph to the column
+                col.appendChild(a);
+                col.appendChild(p);
+
+                // Append the column to the row container
+                logoContainer.appendChild(col);
+            });
+        }
+
+        // Function to sort the restaurant data by name
+        function sortByName() {
+            const sortedData = restaurantData.sort((a, b) => a.name.localeCompare(b.name));
+            loadLogos(sortedData);
+        }
+
+        // Function to filter restaurant data by rating (for example, rating >= 4)
+        function filterByRating() {
+            const filteredData = restaurantData.filter((restaurant) => restaurant.rating >= 4);
+            loadLogos(filteredData);
+        }
+
+        // Load the logos and names when the page loads
+        window.addEventListener('load', loadLogos);
+    </script>
+</body>
+
+</html>
